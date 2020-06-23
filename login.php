@@ -1,10 +1,7 @@
 <?php
 ob_start();
-include_once('nav2.php'); 
 
- $content = 'Log In your account';
-//  $sql ="select * from course order by course_id desc";
-//  $courses = mysqli_query($con,$sql);
+
 
  if(isset($_POST['submit'])){
   $sql = "SELECT * FROM user";
@@ -12,16 +9,13 @@ include_once('nav2.php');
 
   foreach($users as $user){
       if($user['email'] == $_POST['email'] && $user['password'] == $_POST['password']){
-          // $_SESSION['user_id'] = $user['full_name'];
+
           $_SESSION['user_id'] = $user['user_id'];
           $_SESSION['email'] = $user['email'];
-          // header ();
-          // echo 'hello world';
-          // exit();
+  
           header('Location: userDashboard.php');
       } else {
           // echo "0 results";
-          $content = 'error username or password';
       }
   }
 }

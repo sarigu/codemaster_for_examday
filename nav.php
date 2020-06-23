@@ -3,12 +3,8 @@
 <head>
 <?php
 ob_start();
-    include_once('connection.php'); 
+include_once('connection.php'); 
 
-    if(!isset($_SESSION))
-    { 
-      session_start(); 
-    }
 ?>
     <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -132,8 +128,7 @@ ob_start();
             <?php 
                  $sql ="select * from course order by course_id limit 3";
                  $courses = mysqli_query($con,$sql);
-                 while($row = mysqli_fetch_array($courses)){
-            
+                 while($row = mysqli_fetch_array($courses)){       
             ?> 
          
               <a class="dropdown-item" href="#">
@@ -161,10 +156,9 @@ ob_start();
           <li class="nav-item dropdown mr-4 my-2 my-lg-0 ">
             <a
               class="nav-link"
-              href="#"
+              href="favourite.php"
               id="navbarDropdown"
               role="button"
-              data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
             >
@@ -182,22 +176,7 @@ ob_start();
                 />
               </svg>
             </a>
-            <div
-              class="dropdown-menu dropdown-menu-right bg-darkblue"
-              aria-labelledby="navbarDropdown"
-            >
-              <a class="dropdown-item" href="#"
-                ><span class="neon-green">Topic 1:</span> Lesson 1</a
-              >
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#"
-                ><span class="neon-green">Topic 1:</span> Lesson 2</a
-              >
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#"
-                ><span class="neon-green">Topic 3:</span> Lesson 5</a
-              >
-            </div>
+        
           </li>
           <!--signed in user-->
           <li class="nav-item dropdown mr-4 my-2 my-lg-0 ">

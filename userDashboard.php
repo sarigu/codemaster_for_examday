@@ -1,4 +1,11 @@
-<?php require_once('nav.php'); ?>
+<?php 
+require_once('nav.php'); 
+include_once('connection.php'); 
+ $sql ="select * from course order by course_id";
+ $courses = mysqli_query($con,$sql);
+ //$row = mysqli_fetch_array($courses);
+ //echo json_encode( $row );
+ ?>
 <main>
 <div class="d-flex flex-column justify-content-between mt-6">
     <h1 class="text-center">Your Started Courses</h1>
@@ -185,27 +192,30 @@
       <h1>See available courses</h1>
       <i class="fas fa-chevron-down"></i>
       <div id="coursesInnerDiv" class="bg-darkblue white mt-3">
-        <button class="accordion">Topic 1</button>
-        <div class="panel pl-5">
-          <ol>
-            <li>Lesson 1</li>
-            <li>Lesson 2</li>
-          </ol>
-        </div>
-        <button class="accordion">Topic 2</button>
-        <div class="panel pl-5">
-          <ol>
-            <li>Lesson 1</li>
-            <li>Lesson 2</li>
-          </ol>
-        </div>
-        <button class="accordion">Topic 3</button>
-        <div class="panel pl-5">
-          <ol>
-            <li>Lesson 1</li>
-            <li>Lesson 2</li>
-          </ol>
-        </div>
+      <?php 
+           
+           while($row = mysqli_fetch_array($courses)){ ?>
+             <button class="topic-btn white "><?= $row["title"]; ?></button>
+             <div class="lessons-list white ">
+               <ul>
+               <?php 
+                $courseid = $row["course_id"];
+                $sql_lesson ="select * from lesson where course_id = $courseid ";
+                $lesson = mysqli_query($con,$sql_lesson);    
+                while($lessonrow = mysqli_fetch_array($lesson)){
+                 $lessonid = $lessonrow["lesson_id"];
+               
+               ?>
+                 <li class="list-row" >
+                   <div data-lesson= <?=$lessonid?>  onclick="getLessonContent(event)">
+                    <?= $lessonrow["title"] ?>
+                   </div>
+                 </li>
+                <?php   } ?>
+                  <ul>
+             </div>
+           <?php } ?>
+        <!--container end-->
       </div>
     </div>
     <div id="aboutSection" class="spacing">
@@ -256,6 +266,31 @@
     </div>
   </main>
     <?php include_once('footer.php'); ?>
-    <script src="main.js"></script>
+    <script >
+       //      Drop Down for lessons and topic overview
+
+    var topicBtn = document.getElementsByClassName("topic-btn");
+      var lessonsList = document.getElementsByClassName("lessons-list");
+
+      for (var i = 0; i < topicBtn.length; i++) {
+        topicBtn[i].addEventListener("click", function() {
+          var listShows = this.classList.contains("active");
+          //reset all, so only the lessons list from the topic clicked on shows
+          closeOpenLists(topicBtn, "remove", "active");
+          closeOpenLists(lessonsList, "remove", "show");
+
+          if (listShows != true) {
+            this.classList.toggle("active");
+            this.nextElementSibling.classList.toggle("show"); //opens this topcis lessons list
+          }
+        });
+      }
+
+      function closeOpenLists(elem, action, className) {
+        for (var i = 0; i < elem.length; i++) {
+          elem[i].classList[action](className);
+        }
+      }
+    </script>
   </body>
 </html>

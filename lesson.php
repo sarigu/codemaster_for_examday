@@ -1,13 +1,9 @@
 <?php
 ob_start();
-include_once('nav.php'); 
-
- $sql ="select * from course order by course_id";
- $courses = mysqli_query($con,$sql);
-//  if (!$check1_res) {
-//   printf("Error: %s\n", mysqli_error($con));
-//   exit();
-// }
+require_once('nav.php'); 
+include_once('connection.php'); 
+$sql ="select * from course order by course_id";
+$courses = mysqli_query($con,$sql);
 ?>
     <main>
       <!-- Container overview and video/script -->
@@ -17,14 +13,7 @@ include_once('nav.php');
             <!--Overview of lessons and topics-->
             <div id="overview">
             <?php 
-              $userid = 1;
-              if(isset($_SESSION['user_id'])){
-                $userid = $_SESSION['user_id'];
-              }
-              $sqlr=" select * from user_favourite where user_id='$userid'";
-              $r=mysqli_query($con,$sqlr);
-              $found = 0;
-            // echo 'here';
+           
             while($row = mysqli_fetch_array($courses)){ ?>
               <button class="topic-btn white "><?= $row["title"]; ?></button>
               <div class="lessons-list white ">
@@ -32,34 +21,20 @@ include_once('nav.php');
                 <?php 
                  $courseid = $row["course_id"];
                  $sql_lesson ="select * from lesson where course_id = $courseid ";
-                //  $sql_favourite ="select * from user_favourite where user_id = ";
                  $lesson = mysqli_query($con,$sql_lesson);    
                  while($lessonrow = mysqli_fetch_array($lesson)){
-                   $lessonid = $lessonrow["lesson_id"];
-
-                    foreach($r as $data)
-                    {
-                        if($data['user_id'] == $userid && $data['lesson_id'] == $lessonrow["lesson_id"])
-                        {
-                          $found = 1;
-                        }
-                    }
-                    // echo $found;
+                  $lessonid = $lessonrow["lesson_id"];
+                
                 ?>
                   <li class="list-row" >
-                    <div  class="heart-icon"></div>
-                    <?php if($found == 1){ ?>
-                      <div class="heart-icon"><i class="fas fa-heart"></i></div>
-                    <?php } ?>
+                    <div class="heart-icon"><i class="far fa-heart"></i></div>
                     <div data-lesson= <?=$lessonid?>  onclick="getLessonContent(event)">
                      <?= $lessonrow["title"] ?>
                     </div>
                     <div class="check-load-icon"><i class="fas fa-check"></i></div>
                   </li>
-                 <?php 
-                  $found = 0;
-                  }
-                 ?>
+                 <?php   } ?>
+                   <ul>
               </div>
             <?php } ?>
               <!--2-->
@@ -291,4 +266,3 @@ var parentItem;
 
 
     <?php require_once('footer.php'); ?>
-    
