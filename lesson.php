@@ -46,7 +46,7 @@ ob_start();
                     }
                     // echo $found;
                 ?>
-                  <li class="list-row neon-green" ">
+                  <li class="list-row" >
                     <div  class="heart-icon"></div>
                     <?php if($found == 1){ ?>
                       <div class="heart-icon"><i class="fas fa-heart"></i></div>
@@ -198,15 +198,26 @@ ob_start();
     <script>
 
 
+ 
+var parentItem; 
      function getLessonContent(event){
-        let lessonID = event.target.dataset.lesson;
+       parentItem = event.target.parentElement;
+       var allLessons = document.querySelectorAll(".list-row");
+      // console.log(allLessons);
+       for (let i = 0; i < allLessons.length; i++) {
+          //console.log(allLessons[i])
+          allLessons[i].style.color = "white";
+        }
+  
+       event.target.parentElement.style.color = "#00ffce";
+        var lessonID = event.target.dataset.lesson;
         //console.log(lessonID );
             $.ajax({
               type: "POST",
               url: "get-lessons.php",
               data: { lesson: lessonID}
             }).done(function( data ) {
-              var obj = JSON.parse(data);
+               var obj = JSON.parse(data);
               changeContent(obj);
             });              
      }
@@ -265,10 +276,12 @@ ob_start();
       }
 
       function checkCode() {
+      
         var insertedCode = codeInput.value.trim();
         var expectedCode = "SELECT * FROM Customers;";
         if (insertedCode == expectedCode) {
           codePlaceholder.style.color = "green";
+          parentItem.children[2].style.display = "block";
         } else {
           codePlaceholder.style.color = "red";
         }
