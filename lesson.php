@@ -4,6 +4,9 @@ require_once('nav.php');
 include_once('connection.php'); 
 $sql ="select * from course order by course_id";
 $courses = mysqli_query($con,$sql);
+
+$userid = $_SESSION['user_id'];
+
 ?>
     <main>
       <!-- Container overview and video/script -->
@@ -27,7 +30,7 @@ $courses = mysqli_query($con,$sql);
                 
                 ?>
                   <li class="list-row" >
-                    <div class="heart-icon"><i class="far fa-heart"></i></div>
+                    <div class="heart-icon"  onclick="addToFavourites(event)"><i data-lesson= <?=$lessonid?>  class="far fa-heart"></i></div>
                     <div data-lesson= <?=$lessonid?>  onclick="getLessonContent(event)">
                      <?= $lessonrow["title"] ?>
                     </div>
@@ -173,6 +176,32 @@ $courses = mysqli_query($con,$sql);
     <script>
 
 
+      function addToFavourites(event){
+        let lessonToAdd = event.target.dataset.lesson;
+        let user = <?php echo $userid ?>;
+  
+
+       // $.ajax({
+            //  type: "POST",
+           //   url: "add-faves.php",
+           //   data: { user: user,
+            //    lesson: lessonToAdd}
+           // });  
+     
+             
+        event.target.classList.remove("far", "fa-heart");
+        event.target.classList.add("fas", "fa-heart");
+ 
+        
+      }
+
+      
+
+let logoutBtn = document.querySelector("#logout-btn");
+       logoutBtn.addEventListener("click", goToLogout);
+       function goToLogout(){
+        window.location.replace("logout.php");
+       }
  
 var parentItem; 
      function getLessonContent(event){

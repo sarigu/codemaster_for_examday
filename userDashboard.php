@@ -269,6 +269,12 @@ include_once('connection.php');
     <script >
        //      Drop Down for lessons and topic overview
 
+       let logoutBtn = document.querySelector("#logout-btn");
+       logoutBtn.addEventListener("click", goToLogout);
+       function goToLogout(){
+        window.location.replace("logout.php");
+       }
+
     var topicBtn = document.getElementsByClassName("topic-btn");
       var lessonsList = document.getElementsByClassName("lessons-list");
 
