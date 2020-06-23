@@ -1,11 +1,12 @@
-
 <?php
 ob_start();
+include_once('nav2.php'); 
 
-include_once('connection.php'); 
+ $content = 'Log In your account';
+//  $sql ="select * from course order by course_id desc";
+//  $courses = mysqli_query($con,$sql);
 
-
-if(isset($_POST['submit'])){
+ if(isset($_POST['submit'])){
   $sql = "SELECT * FROM user";
   $users = mysqli_query($con,$sql);
 
@@ -14,66 +15,18 @@ if(isset($_POST['submit'])){
           // $_SESSION['user_id'] = $user['full_name'];
           $_SESSION['user_id'] = $user['user_id'];
           $_SESSION['email'] = $user['email'];
+          // header ();
+          // echo 'hello world';
+          // exit();
           header('Location: userDashboard.php');
       } else {
-        header('Location: index.php');
-         
+          // echo "0 results";
+          $content = 'error username or password';
       }
   }
 }
 
-
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!--font-->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Latest compiled and minified CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
-    <!--own CSS-->
-    <link rel="stylesheet" href="style.css" />
-    <!--font awesome-->
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <!-- JS, Popper.js, and jQuery -->
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
-    <title>Code Master</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg  bg-darkblue ">
-      <a class="navbar-brand" href="index.php">
-        <img src="images/logo.png" width="80%" alt="logo"
-      /></a>
-    </nav>
-    <!---LANDING PAGE -->
 <main id="landingpage">
 <div id="mainHeader" class="spacing">
       <div>
@@ -87,14 +40,12 @@ if(isset($_POST['submit'])){
       <div id="logInArea">
         <div id="logInDiv" class="bg-darkblue-box">
           <h1>Become a CodeMaster for free</h1>
-          <p>Create an account today</p>
-      
-          <form id="loginForm" method="POST" >
-            <input  class="noBorder" name="email" type="email"  placeholder="youremail@email.com" />
-            <input class="noBorder"  name="password" type="password" placeholder="password" />
-            <input class="btn-outline-success" id="btn_Login" name="submit" type="submit"  value="Login"/>
+          <p><?= $content; ?></p>
+          <form method="POST">
+            Email : <input name="email" type="email" placeholder="email"><br/><br/>
+            Pasword : <input name="password" type="password" placeholder="password"><br/><br/>
+            <input type="submit" name="submit">
           </form>
-          <a href="signup.php" class="white">or Sign Up</a>
         </div>
       </div>
     </div>
@@ -175,7 +126,10 @@ if(isset($_POST['submit'])){
       </div>
     </div>
 </main>
-    <?php require_once('footer.php'); ?>
-    <script src="main.js"></script>
-  </body>
-</html>
+
+
+<?php
+
+require_once('footer.php'); 
+
+?>

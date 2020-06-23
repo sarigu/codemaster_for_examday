@@ -1,6 +1,6 @@
 <?php
 ob_start();
- include_once('nav.php'); 
+include_once('nav.php'); 
 
  $sql ="select * from course order by course_id";
  $courses = mysqli_query($con,$sql);

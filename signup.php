@@ -4,23 +4,23 @@ ob_start();
 
 include_once('connection.php'); 
 
-
-if(isset($_POST['submit'])){
-  $sql = "SELECT * FROM user";
-  $users = mysqli_query($con,$sql);
-
-  foreach($users as $user){
-      if($user['email'] == $_POST['email'] && $user['password'] == $_POST['password']){
-          // $_SESSION['user_id'] = $user['full_name'];
-          $_SESSION['user_id'] = $user['user_id'];
-          $_SESSION['email'] = $user['email'];
-          header('Location: userDashboard.php');
-      } else {
+if(isset($_POST["submit"])) {
+    $error = '';
+    if(empty($_POST['email']) && empty($_POST['password'])){
+      echo 'Please Enter Email and Password';
+    } else {
+      $sql = "INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `avatar_img`, `status`) VALUES ('".$_POST['first_name']."', '".$_POST['last_name']."', '".$_POST['email']."', '".$_POST['password']."', '', '".$_POST['status']."')";
+      if ($error == '') {
+        $r = mysqli_query($con,$sql);
+        echo "New record created successfully";
         header('Location: index.php');
-         
+      } else {
+        echo "Email : ".$_POST['email']." already exits. ";
       }
+    }
+      // $con->close();
+  
   }
-}
 
 
 ?>
@@ -89,12 +89,17 @@ if(isset($_POST['submit'])){
           <h1>Become a CodeMaster for free</h1>
           <p>Create an account today</p>
       
-          <form id="loginForm" method="POST" >
-            <input  class="noBorder" name="email" type="email"  placeholder="youremail@email.com" />
-            <input class="noBorder"  name="password" type="password" placeholder="password" />
-            <input class="btn-outline-success" id="btn_Login" name="submit" type="submit"  value="Login"/>
+          <form method="POST" enctype="multipart/form-data">
+            <input  class="noBorder" type="text" name="first_name" class="form-control" placeholder="First Name"/>
+            <input class="noBorder" type="text" name="last_name" class="form-control" placeholder="Last Name" />
+            <input class="noBorder"  type="email" name="email" class="form-control" placeholder="Email Address">
+            <input class="noBorder"  type="password" name="password" class="form-control" placeholder="Password">
+            <input type="hidden" name="status" value="User" />
+            <input class="btn-outline-success"  name="submit" type="submit"  value="Sign Up"/>
           </form>
-          <a href="signup.php" class="white">or Sign Up</a>
+
+       
+          <a href="signup.php" class="white">or Log In</a>
         </div>
       </div>
     </div>
@@ -175,7 +180,16 @@ if(isset($_POST['submit'])){
       </div>
     </div>
 </main>
-    <?php require_once('footer.php'); ?>
+   
+<?php
+
+
+
+
+require_once('footer.php'); 
+
+
+?>
     <script src="main.js"></script>
   </body>
 </html>
