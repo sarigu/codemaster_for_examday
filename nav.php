@@ -133,7 +133,7 @@ if(isset($_SESSION['user_id'])){
               aria-labelledby="navbarDropdown"
             >
             <?php 
-                 $sql ="SELECT * from started_courses where user_id =  $userid ";
+                 $sql ="SELECT * FROM started_courses where user_id = $userid GROUP BY course_id";
                  $courses = mysqli_query($con,$sql);
                  $currentRow; 
                  while($row = mysqli_fetch_array($courses)){   

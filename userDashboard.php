@@ -33,7 +33,7 @@ $courses = mysqli_query($con,$sql);
        </div>
        <?php 
     
-    $sqlTitles ="SELECT * from started_courses where user_id = $userid ";
+    $sqlTitles ="SELECT * from started_courses where user_id = $userid GROUP BY course_id ";
     $coursesTitles = mysqli_query($con,$sqlTitles);
      $arr = [];
      
