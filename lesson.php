@@ -297,6 +297,7 @@ var parentItem;
   
        event.target.parentElement.style.color = "#00ffce";
         var lessonID = event.target.dataset.lesson;
+    
         //console.log(lessonID );
             $.ajax({
               type: "POST",
@@ -307,6 +308,8 @@ var parentItem;
               changeContent(obj);
             });              
      }
+
+   
 
      let script = document.querySelector("#script-txt");
      let exerciseTxt = document.querySelector("#exercise-txt");
@@ -345,10 +348,7 @@ var parentItem;
         }
       }
 
-      //      to add hearts or load icons or check icons if class is used
-      //create an i element const i = document.createElement("i");
-      //  add the correct class f.e. i.className = "fas fa-heart";  heart: fas fa-heart; load circle: far fa-circle; tick mark: fas fa-check
-      // append it to correct element   emptyHeartDiv.appendChild(i);
+
 
       //      Code Editor
 
@@ -368,7 +368,13 @@ var parentItem;
         if (insertedCode == expectedCode) {
           codePlaceholder.style.color = "green";
           parentItem.children[2].style.display = "block";
-          <?php ?>
+          $.ajax({
+              type: "POST",
+              url: "update-learning.php",
+              data: { lesson: lessonID}
+         
+            });        
+        
         } else {
           codePlaceholder.style.color = "red";
         }
