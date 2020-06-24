@@ -38,6 +38,19 @@ while($row = mysqli_fetch_array($finishedClasses)){
 $arr =  json_encode($finishedLessons);
 
 
+$faveArr = [];
+
+$sqlFaves ="select lesson_id from user_favourite where user_id = $userid ";
+$faveLessons = mysqli_query($con,$sqlFaves);
+while($rowFaves = mysqli_fetch_array($faveLessons )){
+ array_push($faveArr , $rowFaves[lesson_id]);
+}
+
+$faves = json_encode($faveArr);
+
+
+
+
 
 
 
@@ -228,6 +241,7 @@ $arr =  json_encode($finishedLessons);
 
     checkActiveCourse();
       checkFinishedLessons();
+      checkFavourites();
    
       function checkActiveCourse(){
         var courseID = <?php echo $courseID ?>;
@@ -255,6 +269,26 @@ $arr =  json_encode($finishedLessons);
             listItems[i].children[2].style.display = "block"; 
           }
         }
+      }
+
+      function  checkFavourites(){
+        var listItems= document.querySelectorAll(".list-row");
+        var arr = <?=$faves ?>;
+        for(let i = 0; i < arr.length; i++){      
+        var favourite = arr[i];
+     
+        for(let i = 0; i < listItems.length; i++){
+          var listLesson = listItems[i].children[1].dataset.lesson;
+          if (favourite == listLesson )
+            var heartNbr = listItems[i].children[0].getElementsByTagName("i")[0].dataset.lesson;
+            console.log(heartNbr);
+            if(heartNbr == listLesson){
+              listItems[i].children[0].getElementsByTagName("i")[0].classList.remove("far", "fa-heart");
+             listItems[i].children[0].getElementsByTagName("i")[0].classList.add("fas", "fa-heart");
+            }
+            }
+          }
+
       }
 
 
@@ -364,7 +398,7 @@ var parentItem;
       }
 
       function checkCode() {
-      console.log(lesson);
+      //console.log(lesson);
         var insertedCode = codeInput.value.trim();
         var expectedCode = "SELECT * FROM Customers;";
         if (insertedCode == expectedCode) {
@@ -373,9 +407,13 @@ var parentItem;
           $.ajax({
               type: "POST",
               url: "update-learning.php",
-              data: { lesson: lessonID}
-         
-            });        
+              data: { lesson: lesson}
+            }).done(function( data ) {
+       
+               if(data != ""){
+                  alert("Keep going! You finished " + data + "lessons."); 
+               }
+            });    
         
         } else {
           codePlaceholder.style.color = "red";

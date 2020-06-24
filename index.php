@@ -4,19 +4,17 @@ ob_start();
 
 include_once('connection.php'); 
 
-
 if(isset($_POST['submit'])){
   $sql = "SELECT * FROM user";
   $users = mysqli_query($con,$sql);
 
   foreach($users as $user){
       if($user['email'] == $_POST['email'] && $user['password'] == $_POST['password']){
-          // $_SESSION['user_id'] = $user['full_name'];
           $_SESSION['user_id'] = $user['user_id'];
           $_SESSION['email'] = $user['email'];
           header('Location: userDashboard.php');
       } else {
-        header('Location: index.php');
+        //header('Location: index.php');
          
       }
   }
