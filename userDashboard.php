@@ -33,7 +33,7 @@ $courses = mysqli_query($con,$sql);
        </div>
        <?php 
     
-    $sqlTitles ="select * from started_courses where  $userid ";
+    $sqlTitles ="SELECT * from started_courses where user_id = $userid ";
     $coursesTitles = mysqli_query($con,$sqlTitles);
      $arr = [];
      
