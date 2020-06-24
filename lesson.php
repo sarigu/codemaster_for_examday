@@ -2,10 +2,25 @@
 ob_start();
 require_once('nav.php'); 
 include_once('connection.php'); 
+
+if(isset($_SESSION['user_id'])){
+  $userid = $_SESSION['user_id'];
+} else {
+  $userid = 0;
+}
+
+
+if(isset($_GET['courseid'])){
+  $courseID = $_GET['courseid'];
+} else {
+  $courseID= 0;
+}
+
+
 $sql ="select * from course order by course_id";
 $courses = mysqli_query($con,$sql);
 
-$userid = $_SESSION['user_id'];
+
 
 ?>
     <main>
@@ -18,7 +33,7 @@ $userid = $_SESSION['user_id'];
             <?php 
            
             while($row = mysqli_fetch_array($courses)){ ?>
-              <button class="topic-btn white "><?= $row["title"]; ?></button>
+              <button data-lesson=<?= $row["course_id"];?> class="topic-btn white "><?= $row["title"]; ?></button>
               <div class="lessons-list white ">
                 <ul>
                 <?php 
@@ -176,23 +191,35 @@ $userid = $_SESSION['user_id'];
     <script>
 
 
+    checkActiveCourse();
+      function checkActiveCourse(){
+        var courseID = <?php echo $courseID ?>;
+        let overviewBtn = document.querySelectorAll("#overview button");
+        for (let i = 0; i < overviewBtn.length; i++) {
+          if( overviewBtn[i].dataset.lesson == courseID ){
+            overviewBtn[i].classList.add("active");
+          }
+          }
+      }
+
+
       function addToFavourites(event){
         let lessonToAdd = event.target.dataset.lesson;
         let user = <?php echo $userid ?>;
   
 
-       // $.ajax({
-            //  type: "POST",
-           //   url: "add-faves.php",
-           //   data: { user: user,
-            //    lesson: lessonToAdd}
-           // });  
+        $.ajax({
+             type: "POST",
+              url: "add-faves.php",
+             data: { user: user,
+                lesson: lessonToAdd}
+            });  
      
              
         event.target.classList.remove("far", "fa-heart");
         event.target.classList.add("fas", "fa-heart");
  
-        
+
       }
 
       

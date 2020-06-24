@@ -15,10 +15,33 @@ include_once('connection.php');
     <div class="carousel-item active" data-interval="false">
       <!--one container for three containers-->
       <div class="carousel-container d-flex flex-row justify-content-between mt-1 mr-6 ml-6 pt-4 pb-4">
-        <!--single container-->
+      <?php 
+   
+   $sqlTitles ="select * from course order by course_id";
+   $coursesTitles = mysqli_query($con,$sqlTitles);
+    $arr = [];
+ 
+
+      while ($row = mysqli_fetch_array($coursesTitles)){ 
+        $obj = new stdClass();
+        $obj->title = $row["title"];
+        $obj->courseID = $row["course_id"];
+        array_push($arr , $obj);
+    }
+
+
+  
+
+
+
+    
+      
+?>  
+      
+      <!--single container-->
         <div class="container1 d-flex flex-column justify-content-between d-block w-30 p-1 ">
           <!--topic heading-->
-          <h1 class="text-center my-1 f4">Topic 1</h1>
+          <h1 class="text-center my-1 f4"><?= $arr[0]->title; ?></h1>
                 <!--progressbar and text on side-->
               <div class="d-flex flex-row align-items-center">
                 <div class="progress bg-darkblue mr-1 ml-3  w-50 " id="progressWi">
@@ -33,13 +56,14 @@ include_once('connection.php');
             </div>
              <!--button--> 
           <div class="text-center m-1">
-            <button type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
+            <button onclick="location.href='lesson.php?courseid=<?= $arr[0]->courseID; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
           </div>
         </div>
+     
         <!-- second single container-->
         <div class="container1 d-flex flex-column justify-content-between d-block w-30  p-1">
           <!--topic heading-->
-          <h1 class="text-center my-1 f4">Topic 2</h1>
+          <h1 class="text-center my-1 f4"><?= $arr[1]->title; ?></h1>
                 <!--progressbar and text on side-->
               <div class="d-flex flex-row align-items-center">
                 <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
@@ -54,13 +78,13 @@ include_once('connection.php');
             </div>
              <!--button--> 
           <div class="text-center m-1">
-            <button type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
+          <button onclick="location.href='lesson.php?courseid=<?= $arr[1]->courseID; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
           </div>
         </div>
         <!--third single container-->
         <div class="container1 d-flex flex-column justify-content-between d-block w-30  p-1">
           <!--topic heading-->
-          <h1 class="text-center my-1 f4">Topic 3</h1>
+          <h1 class="text-center my-1 f4"><?= $arr[2]->title; ?></h1>
                 <!--progressbar and text on side-->
               <div class="d-flex flex-row align-items-center">
                 <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
@@ -75,7 +99,7 @@ include_once('connection.php');
             </div>
              <!--button--> 
           <div class="text-center m-1">
-            <button type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
+            <button onclick="location.href='lesson.php?courseid=<?= $arr[2]->courseID; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
           </div>
         </div>
       </div>
@@ -90,7 +114,7 @@ include_once('connection.php');
         <!--single container-->
         <div class="container1 d-flex flex-column justify-content-between d-block w-30  p-1">
           <!--topic heading-->
-          <h1 class="text-center my-1 f4">Topic 4</h1>
+          <h1 class="text-center my-1 f4"><?= $arr[3]->title; ?></h1>
                 <!--progressbar and text on side-->
               <div class="d-flex flex-row align-items-center">
                 <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
@@ -105,13 +129,13 @@ include_once('connection.php');
             </div>
              <!--button--> 
           <div class="text-center m-1">
-            <button type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
+            <button onclick="location.href='lesson.php?courseid=<?= $arr[3]->courseID; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
           </div>
         </div>
         <!-- second single container-->
         <div class="container1 d-flex flex-column justify-content-between d-block w-30  p-1">
           <!--topic heading-->
-          <h1 class="text-center my-1 f4">Topic 5</h1>
+          <h1 class="text-center my-1 f4"><?= $arr[4]->title; ?></h1>
                 <!--progressbar and text on side-->
               <div class="d-flex flex-row align-items-center">
                 <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
@@ -126,13 +150,13 @@ include_once('connection.php');
             </div>
              <!--button--> 
           <div class="text-center m-1">
-            <button type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
+            <button onclick="location.href='lesson.php?courseid=<?= $arr[4]->courseID; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
           </div>
         </div>
         <!--third single container-->
         <div class="container1 d-flex flex-column justify-content-between d-block w-30  p-1">
           <!--topic heading-->
-          <h1 class="text-center my-1 f4">Topic 6</h1>
+          <h1 class="text-center my-1 f4"><?= $arr[5]->title; ?></h1>
                 <!--progressbar and text on side-->
               <div class="d-flex flex-row align-items-center">
                 <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
@@ -147,7 +171,7 @@ include_once('connection.php');
             </div>
              <!--button--> 
           <div class="text-center m-1">
-            <button type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
+            <button onclick="location.href='lesson.php?courseid=<?=$arr[5]->courseID;?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
           </div>
         </div>
       </div>
@@ -267,6 +291,8 @@ include_once('connection.php');
   </main>
     <?php include_once('footer.php'); ?>
     <script >
+
+   
        //      Drop Down for lessons and topic overview
 
        let logoutBtn = document.querySelector("#logout-btn");
