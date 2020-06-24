@@ -1,10 +1,21 @@
 <?php 
 require_once('nav.php'); 
 include_once('connection.php'); 
- $sql ="select * from course order by course_id";
- $courses = mysqli_query($con,$sql);
- //$row = mysqli_fetch_array($courses);
- //echo json_encode( $row );
+
+
+
+if(isset($_SESSION['user_id'])){
+  $userid = $_SESSION['user_id'];
+} else {
+  $userid = 0;
+}
+
+
+$sql ="select * from started_courses where user_id = $userid ";
+$courses = mysqli_query($con,$sql);
+
+
+
  ?>
 <main>
 <div class="d-flex flex-column justify-content-between mt-6">
@@ -17,31 +28,20 @@ include_once('connection.php');
       <div class="carousel-container d-flex flex-row justify-content-between mt-1 mr-6 ml-6 pt-4 pb-4">
       <?php 
    
-   $sqlTitles ="select * from course order by course_id";
+   $sqlTitles ="select * from started_courses where  $userid ";
    $coursesTitles = mysqli_query($con,$sqlTitles);
     $arr = [];
  
-
+    $currentRow; 
       while ($row = mysqli_fetch_array($coursesTitles)){ 
-        $obj = new stdClass();
-        $obj->title = $row["title"];
-        $obj->courseID = $row["course_id"];
-        array_push($arr , $obj);
-    }
-
-
-  
-
-
-
-    
-      
+ 
+        if( $currentRow !== $row['title']) {    
 ?>  
       
       <!--single container-->
         <div class="container1 d-flex flex-column justify-content-between d-block w-30 p-1 ">
           <!--topic heading-->
-          <h1 class="text-center my-1 f4"><?= $arr[0]->title; ?></h1>
+          <h1 class="text-center my-1 f4"><?= $row["title"]; ?></h1>
                 <!--progressbar and text on side-->
               <div class="d-flex flex-row align-items-center">
                 <div class="progress bg-darkblue mr-1 ml-3  w-50 " id="progressWi">
@@ -56,124 +56,16 @@ include_once('connection.php');
             </div>
              <!--button--> 
           <div class="text-center m-1">
-            <button onclick="location.href='lesson.php?courseid=<?= $arr[0]->courseID; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
+            <button onclick="location.href='lesson.php?courseid=<?=  $row["course_id"]; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
           </div>
         </div>
+
+        <?php }
+        $currentRow = $row['title'];
+    }
+?>
      
-        <!-- second single container-->
-        <div class="container1 d-flex flex-column justify-content-between d-block w-30  p-1">
-          <!--topic heading-->
-          <h1 class="text-center my-1 f4"><?= $arr[1]->title; ?></h1>
-                <!--progressbar and text on side-->
-              <div class="d-flex flex-row align-items-center">
-                <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
-                    <div class="progress-bar " role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                      <span class="sr-only">70% Complete</span>
-                    </div>
-                </div>
-                <div class="btnF1 ml-1 w-50">
-                    5/10 lessons left
-                </div> 
-            </div>
-             <!--button--> 
-          <div class="text-center m-1">
-          <button onclick="location.href='lesson.php?courseid=<?= $arr[1]->courseID; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
-          </div>
-        </div>
-        <!--third single container-->
-        <div class="container1 d-flex flex-column justify-content-between d-block w-30  p-1">
-          <!--topic heading-->
-          <h1 class="text-center my-1 f4"><?= $arr[2]->title; ?></h1>
-                <!--progressbar and text on side-->
-              <div class="d-flex flex-row align-items-center">
-                <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
-                    <div class="progress-bar " role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                      <span class="sr-only">70% Complete</span>
-                    </div>
-                </div>
-                <div class="btnF1 ml-1 w-50">
-                    5/10 lessons left
-                </div> 
-            </div>
-             <!--button--> 
-          <div class="text-center m-1">
-            <button onclick="location.href='lesson.php?courseid=<?= $arr[2]->courseID; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
-          </div>
-        </div>
-      </div>
-    <!--one container ends here-->
-    </div>
-
-
-    <div class="carousel-item" data-interval="false">
-   
-<!--second whole container for three containers-->
-      <div class="carousel-container d-flex flex-row justify-content-between mt-1 mr-6 ml-6  pt-4 pb-4">
-        <!--single container-->
-        <div class="container1 d-flex flex-column justify-content-between d-block w-30  p-1">
-          <!--topic heading-->
-          <h1 class="text-center my-1 f4"><?= $arr[3]->title; ?></h1>
-                <!--progressbar and text on side-->
-              <div class="d-flex flex-row align-items-center">
-                <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
-                    <div class="progress-bar " role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                      <span class="sr-only">70% Complete</span>
-                    </div>
-                </div>
-                <div class="btnF1 ml-1 w-50">
-                    5/10 lessons left
-                </div> 
-            </div>
-             <!--button--> 
-          <div class="text-center m-1">
-            <button onclick="location.href='lesson.php?courseid=<?= $arr[3]->courseID; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
-          </div>
-        </div>
-        <!-- second single container-->
-        <div class="container1 d-flex flex-column justify-content-between d-block w-30  p-1">
-          <!--topic heading-->
-          <h1 class="text-center my-1 f4"><?= $arr[4]->title; ?></h1>
-                <!--progressbar and text on side-->
-              <div class="d-flex flex-row align-items-center">
-                <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
-                    <div class="progress-bar " role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                      <span class="sr-only">70% Complete</span>
-                    </div>
-                </div>
-                <div class="btnF1 ml-1 w-50">
-                    5/10 lessons left
-                </div> 
-            </div>
-             <!--button--> 
-          <div class="text-center m-1">
-            <button onclick="location.href='lesson.php?courseid=<?= $arr[4]->courseID; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
-          </div>
-        </div>
-        <!--third single container-->
-        <div class="container1 d-flex flex-column justify-content-between d-block w-30  p-1">
-          <!--topic heading-->
-          <h1 class="text-center my-1 f4"><?= $arr[5]->title; ?></h1>
-                <!--progressbar and text on side-->
-              <div class="d-flex flex-row align-items-center">
-                <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
-                    <div class="progress-bar " role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                      <span class="sr-only">70% Complete</span>
-                    </div>
-                </div>
-                <div class="btnF1 ml-1 w-50">
-                    5/10 lessons left
-                </div> 
-            </div>
-             <!--button--> 
-          <div class="text-center m-1">
-            <button onclick="location.href='lesson.php?courseid=<?=$arr[5]->courseID;?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
-          </div>
-        </div>
+     
       </div>
     </div>
    
@@ -191,7 +83,7 @@ include_once('connection.php');
 <div class="db dn-ns text-center">
         <div class="container2 dib w-75 p-1 ">
           <!--topic heading-->
-          <h1 class="text-center mt-1 mb-1 f4">Topic 1</h1>
+          <h1 class="text-center mt-1 mb-1 f4">Entity relationship diagram </h1>
                 <!--progressbar and text on side-->
               <div class="d-flex flex-row align-items-center">
                 <div class="progress bg-darkblue mr-1 ml-3 w-50" id="progressWi">
@@ -217,7 +109,8 @@ include_once('connection.php');
       <i class="fas fa-chevron-down"></i>
       <div id="coursesInnerDiv" class="bg-darkblue white mt-3">
       <?php 
-           
+           $sql ="select * from course ";
+           $courses = mysqli_query($con,$sql);
            while($row = mysqli_fetch_array($courses)){ ?>
              <button class="topic-btn white "><?= $row["title"]; ?></button>
              <div class="lessons-list white ">
@@ -231,7 +124,7 @@ include_once('connection.php');
                
                ?>
                  <li class="list-row" >
-                   <div data-lesson= <?=$lessonid?>  onclick="getLessonContent(event)">
+                   <div data-lesson= <?=$lessonid?> " onclick="location.href='lesson.php?lessonid=<?=$lessonid;?>'">
                     <?= $lessonrow["title"] ?>
                    </div>
                  </li>

@@ -5,6 +5,13 @@
 ob_start();
 include_once('connection.php'); 
 
+if(isset($_SESSION['user_id'])){
+  $userid = $_SESSION['user_id'];
+} else {
+  $userid = 0;
+}
+
+
 ?>
     <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -126,12 +133,14 @@ include_once('connection.php');
               aria-labelledby="navbarDropdown"
             >
             <?php 
-                 $sql ="select * from course order by course_id limit 3";
+                 $sql ="select * from started_courses where  $userid ";
                  $courses = mysqli_query($con,$sql);
-                 while($row = mysqli_fetch_array($courses)){       
+                 $currentRow; 
+                 while($row = mysqli_fetch_array($courses)){   
+                   if( $currentRow !== $row['title']) { 
             ?> 
          
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="lesson.php?courseid=<?=$row['course_id']?>">
                 <div class="flex flex-column">
                   <p class="m-0 text-center"><?= $row['title']; ?></p>
                   <div class="progress">
@@ -149,7 +158,10 @@ include_once('connection.php');
                 </div>
               </a>
               <div class="dropdown-divider"></div>
-              <?php } ?>
+              <?php 
+              }  
+              $currentRow = $row['title'];
+            } ?>
    
           </li>
           <!--heart-->

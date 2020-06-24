@@ -16,9 +16,33 @@ if(isset($_GET['courseid'])){
   $courseID= 0;
 }
 
+if(isset($_GET['lessonid'])){
+  $lessonID = $_GET['lessonid'];
+} else {
+  $lessonID= 0;
+}
 
-$sql ="select * from course order by course_id";
-$courses = mysqli_query($con,$sql);
+
+
+$finishedLessons = [];
+    
+$sql ="select * from finished_classes where user_id = $userid ";
+$finishedClasses = mysqli_query($con,$sql);
+while($row = mysqli_fetch_array($finishedClasses)){
+  //print_r ($row[lesson_id] ) ;
+  $obj = new stdClass();
+  $obj->lesson = $row[lesson_id];
+    array_push( $finishedLessons ,$obj);
+}
+
+$arr =  json_encode($finishedLessons);
+
+
+
+
+
+
+
 
 
 
@@ -31,8 +55,12 @@ $courses = mysqli_query($con,$sql);
             <!--Overview of lessons and topics-->
             <div id="overview">
             <?php 
+           $sql ="select * from course";
+           $courses = mysqli_query($con,$sql);
            
-            while($row = mysqli_fetch_array($courses)){ ?>
+             
+            while($row = mysqli_fetch_array($courses)){ 
+              ?>
               <button data-lesson=<?= $row["course_id"];?> class="topic-btn white "><?= $row["title"]; ?></button>
               <div class="lessons-list white ">
                 <ul>
@@ -42,6 +70,7 @@ $courses = mysqli_query($con,$sql);
                  $lesson = mysqli_query($con,$sql_lesson);    
                  while($lessonrow = mysqli_fetch_array($lesson)){
                   $lessonid = $lessonrow["lesson_id"];
+                 // print_r ($lessonrow );
                 
                 ?>
                   <li class="list-row" >
@@ -54,7 +83,9 @@ $courses = mysqli_query($con,$sql);
                  <?php   } ?>
                    <ul>
               </div>
-            <?php } ?>
+            <?php } 
+            
+            $contentLoaded=1;?>
               <!--2-->
               <!--3-->
               <!--4-->
@@ -191,15 +222,39 @@ $courses = mysqli_query($con,$sql);
     <script>
 
 
+
+
+
+
     checkActiveCourse();
+      checkFinishedLessons();
+   
       function checkActiveCourse(){
         var courseID = <?php echo $courseID ?>;
         let overviewBtn = document.querySelectorAll("#overview button");
         for (let i = 0; i < overviewBtn.length; i++) {
           if( overviewBtn[i].dataset.lesson == courseID ){
-            overviewBtn[i].classList.add("active");
+            overviewBtn[i].style.color="#00ffce";
+
           }
           }
+      }
+
+
+      function checkFinishedLessons(){
+        var listItems= document.querySelectorAll(".list-row");
+        //console.log(listItems);
+        var  arr = <?= $arr?>;
+
+          for(let i = 0; i < arr.length; i++){
+           
+                   var finishedLesson = arr[i].lesson;
+        for(let i = 0; i < listItems.length; i++){
+           var listLesson = listItems[i].children[1].dataset.lesson;
+          if (finishedLesson == listLesson )
+            listItems[i].children[2].style.display = "block"; 
+          }
+        }
       }
 
 
@@ -313,6 +368,7 @@ var parentItem;
         if (insertedCode == expectedCode) {
           codePlaceholder.style.color = "green";
           parentItem.children[2].style.display = "block";
+          <?php ?>
         } else {
           codePlaceholder.style.color = "red";
         }
@@ -321,4 +377,7 @@ var parentItem;
        </script>
 
 
-    <?php require_once('footer.php'); ?>
+    <?php require_once('footer.php'); 
+
+
+    ?>
