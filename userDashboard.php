@@ -2,6 +2,7 @@
 require_once('nav.php'); 
 include_once('connection.php'); 
 
+$randomNbr = rand(10,100);
 
 
 if(isset($_SESSION['user_id'])){
@@ -40,7 +41,8 @@ $courses = mysqli_query($con,$sql);
   
      $currentRow; 
        while ($row = mysqli_fetch_array($coursesTitles)){ 
-  
+  $course = $row['course_id'];
+  //echo  $course ;
          if( $currentRow !== $row['title']) {    
  ?>  
        

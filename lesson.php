@@ -10,17 +10,27 @@ if(isset($_SESSION['user_id'])){
 }
 
 
+$lessonID;
+
 if(isset($_GET['courseid'])){
   $courseID = $_GET['courseid'];
+  $getLesson ="SELECT * from lesson where course_id = $courseID LIMIT 1";
+  $lessonResult = mysqli_query($con,$getLesson);  
+ 
+  while($lessonRow = mysqli_fetch_array($lessonResult)){
+    //var_dump( $lessonRow["lesson_id"]);
+    $lessonID = $lessonRow["lesson_id"];
+  }
 } else {
   $courseID= 0;
 }
 
 if(isset($_GET['lessonid'])){
   $lessonID = $_GET['lessonid'];
-} else {
-  $lessonID= 0;
-}
+} 
+
+
+
 
 
 
@@ -239,9 +249,10 @@ $faves = json_encode($faveArr);
 
 
 
-    checkActiveCourse();
+      checkActiveCourse();
       checkFinishedLessons();
       checkFavourites();
+      getLessonAfterLoad();
    
       function checkActiveCourse(){
         var courseID = <?php echo $courseID ?>;
@@ -320,6 +331,7 @@ let logoutBtn = document.querySelector("#logout-btn");
        }
  
 var parentItem; 
+
      function getLessonContent(event){
        parentItem = event.target.parentElement;
        var allLessons = document.querySelectorAll(".list-row");
@@ -341,6 +353,21 @@ var parentItem;
                var obj = JSON.parse(data);
               changeContent(obj);
             });              
+     }
+
+    
+     function getLessonAfterLoad(){
+       var lessonId = <?php echo $lessonID; ?>;
+       console.log(lessonId);
+
+       $.ajax({
+              type: "POST",
+              url: "get-lessons.php",
+              data: { lesson: lessonId}
+            }).done(function( data ) {
+               var obj = JSON.parse(data);
+              changeContent(obj);
+            });  
      }
 
    

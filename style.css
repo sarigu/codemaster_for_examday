@@ -296,6 +296,10 @@ h2 {
   border-radius: 5px;
 }
 
+.list-row div:hover {
+  cursor: pointer;
+}
+
 /* ///////  USER DASHBOARD ////////// */
 
 .btnF1 {
