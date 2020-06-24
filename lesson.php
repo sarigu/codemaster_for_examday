@@ -314,12 +314,14 @@ var parentItem;
      let script = document.querySelector("#script-txt");
      let exerciseTxt = document.querySelector("#exercise-txt");
      let video = document.querySelector(".embed-responsive-item");
+     let lesson =""; 
 
      function changeContent(data){
        //console.log(data.exercise_explanation);
        script.innerHTML = data.script;
        exerciseTxt.innerHTML = data.exercise_explanation ; 
        video.src =  data.video_link; 
+       lesson = data.lesson_id;
      }
 
 
@@ -362,7 +364,7 @@ var parentItem;
       }
 
       function checkCode() {
-      
+      console.log(lesson);
         var insertedCode = codeInput.value.trim();
         var expectedCode = "SELECT * FROM Customers;";
         if (insertedCode == expectedCode) {

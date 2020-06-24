@@ -11,7 +11,7 @@ $userid = $_SESSION['user_id'];
     $sql_lesson ="SELECT * FROM lesson WHERE lesson_id = $lessonId";
     $lesson = mysqli_query($con,$sql_lesson); 
     $row = mysqli_fetch_array($lesson);
-    //echo json_encode( $row );
+    echo json_encode( $row );
 
 
     $error = '';
@@ -34,11 +34,6 @@ $userid = $_SESSION['user_id'];
       } else {
       }
     }
-
-
-
-
-
 
 
 ?>
