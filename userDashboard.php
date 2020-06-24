@@ -11,63 +11,67 @@ if(isset($_SESSION['user_id'])){
 }
 
 
-$sql ="select * from started_courses where user_id = $userid ";
+$sql ="SELECT * FROM started_courses WHERE user_id = $userid ";
 $courses = mysqli_query($con,$sql);
 
 
 
  ?>
-<main>
-<div class="d-flex flex-column justify-content-between mt-6">
-    <h1 class="text-center">Your Started Courses</h1>
-    <!--Slideshow-->
-<div id="carouselExampleInterval" class="carousel slide bgGr dn db-ns mb-4" data-ride="carousel" data-interval="false">
-  <div class="carousel-inner">
-    <div class="carousel-item active" data-interval="false">
-      <!--one container for three containers-->
-      <div class="carousel-container d-flex flex-row justify-content-between mt-1 mr-6 ml-6 pt-4 pb-4">
-      <?php 
-   
-   $sqlTitles ="select * from started_courses where  $userid ";
-   $coursesTitles = mysqli_query($con,$sqlTitles);
-    $arr = [];
+ <main>
+ <div class="d-flex flex-column justify-content-between mt-6">
+     <h1 class="text-center">Your Started Courses</h1>
+     <!--Slideshow-->
+ <div id="carouselExampleInterval" class="carousel slide bgGr dn db-ns mb-4" data-ride="carousel" data-interval="false">
+   <div class="carousel-inner">
+     <div class="carousel-item active" data-interval="false">
+       <!--one container for three containers-->
+       <div id="slide1" class="carousel-container d-flex flex-row justify-content-between mt-1 mr-6 ml-6 pt-4 pb-4"></div>
+       </div>
+       <div class="carousel-item " data-interval="false">
+           <!--second container for three containers-->
+       <div  id="slide2" class="carousel-container d-flex flex-row justify-content-between mt-1 mr-6 ml-6  pt-4 pb-4"></div>
+       </div>
+       <?php 
+    
+    $sqlTitles ="select * from started_courses where  $userid ";
+    $coursesTitles = mysqli_query($con,$sqlTitles);
+     $arr = [];
+     
+  
+     $currentRow; 
+       while ($row = mysqli_fetch_array($coursesTitles)){ 
+  
+         if( $currentRow !== $row['title']) {    
+ ?>  
+       
+       <!--single container-->
+         <div class="container1 d-flex flex-column justify-content-between d-block w-30 p-1 ">
+           <!--topic heading-->
+           <h1 class="text-center my-1 f4"><?= $row["title"]; ?></h1>
+                 <!--progressbar and text on side-->
+               <div class="d-flex flex-row align-items-center">
+                 <div class="progress bg-darkblue mr-1 ml-3  w-50 " id="progressWi">
+                     <div class="progress-bar " role="progressbar" aria-valuenow="70"
+                     aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                       <span class="sr-only">70% Complete</span>
+                     </div>
+                 </div>
+                 <div class="btnF1 ml-1  w-50">
+                     5/10 lessons left
+                 </div> 
+             </div>
+              <!--button--> 
+           <div class="text-center m-1">
+             <button onclick="location.href='lesson.php?courseid=<?=  $row["course_id"]; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
+           </div>
+         </div>
  
-    $currentRow; 
-      while ($row = mysqli_fetch_array($coursesTitles)){ 
- 
-        if( $currentRow !== $row['title']) {    
-?>  
+         <?php }
+         $currentRow = $row['title'];
+     }
+ ?>
       
-      <!--single container-->
-        <div class="container1 d-flex flex-column justify-content-between d-block w-30 p-1 ">
-          <!--topic heading-->
-          <h1 class="text-center my-1 f4"><?= $row["title"]; ?></h1>
-                <!--progressbar and text on side-->
-              <div class="d-flex flex-row align-items-center">
-                <div class="progress bg-darkblue mr-1 ml-3  w-50 " id="progressWi">
-                    <div class="progress-bar " role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                      <span class="sr-only">70% Complete</span>
-                    </div>
-                </div>
-                <div class="btnF1 ml-1  w-50">
-                    5/10 lessons left
-                </div> 
-            </div>
-             <!--button--> 
-          <div class="text-center m-1">
-            <button onclick="location.href='lesson.php?courseid=<?=  $row["course_id"]; ?>'"  type="button" class="btn darkBtn bg-darkblue neon-green dib btnF">Continue</button>
-          </div>
-        </div>
-
-        <?php }
-        $currentRow = $row['title'];
-    }
-?>
-     
-     
-      </div>
-    </div>
+ 
    
   </div>
   <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
@@ -185,7 +189,30 @@ $courses = mysqli_query($con,$sql);
     <?php include_once('footer.php'); ?>
     <script >
 
-   
+      slider();
+
+      function slider(){
+
+        console.log(arr);
+console.log(node1);
+console.log(node2);
+
+      var node1 = document.querySelector("#slide1");  
+      var node2 = document.querySelector("#slide2");  
+      var arr = document.querySelectorAll (".container1");
+
+
+      for (let i = 0 ; i< arr.length; i++)
+      {
+          if(i < 3){
+              node1.appendChild(arr[i]);
+          } else{
+              node2.appendChild(arr[i]);
+          }
+      }
+      }
+
+
        //      Drop Down for lessons and topic overview
 
        let logoutBtn = document.querySelector("#logout-btn");
