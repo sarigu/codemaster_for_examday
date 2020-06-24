@@ -219,6 +219,8 @@ if(isset($_SESSION['user_id'])){
               class="dropdown-menu dropdown-menu-right bg-darkblue"
               aria-labelledby="navbarDropdown"
             >
+            <a class="dropdown-item" href="main.php"><?= $_SESSION['email']; ?></a>
+              <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Notifications</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Messages</a>

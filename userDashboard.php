@@ -19,6 +19,7 @@ $courses = mysqli_query($con,$sql);
 
  ?>
  <main>
+ <h1 class="text-center">Welcome : <?= $_SESSION['email']; ?></h1><br/>
  <div class="d-flex flex-column justify-content-between mt-6">
      <h1 class="text-center">Your Started Courses</h1>
      <!--Slideshow-->
