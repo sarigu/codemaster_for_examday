@@ -62,7 +62,7 @@ $faves = json_encode($faveArr);
 
 
 
-
+$lessonTitle ="";
 
 
 
@@ -93,6 +93,7 @@ $faves = json_encode($faveArr);
                  $lesson = mysqli_query($con,$sql_lesson);    
                  while($lessonrow = mysqli_fetch_array($lesson)){
                   $lessonid = $lessonrow["lesson_id"];
+                  $lessonTitle = $lessonrow["title"];
                  // print_r ($lessonrow );
                 
                 ?>
@@ -163,7 +164,7 @@ $faves = json_encode($faveArr);
            <!-- exercise container-->
           <div class="col-md-5 bg-darkblue-box bg-box-spacing">
             <h1 class="white">Exercise:</h1>
-            <h1 class="neon-green">Normalization Form</h1>
+            <h1 id="lesson-name" class="neon-green">Normalization Form</h1>
             <div id="exercise-txt" class="bg-white-box">
               <p>
                 Normalisation is a technique that consists of a series of rules
@@ -358,7 +359,7 @@ var parentItem;
     
      function getLessonAfterLoad(){
        var lessonId = <?php echo $lessonID; ?>;
-       console.log(lessonId);
+       //console.log(lessonId);
 
        $.ajax({
               type: "POST",
@@ -368,6 +369,17 @@ var parentItem;
                var obj = JSON.parse(data);
               changeContent(obj);
             });  
+
+            var allLessons = document.querySelectorAll(".list-row");
+      // console.log(allLessons);
+       for (let i = 0; i < allLessons.length; i++) {
+          if(allLessons[i].children[1].dataset.lesson == lessonId ){
+            allLessons[i].children[1].style.color = "#00ffce";
+            allLessons[i].style.color = "#00ffce";
+
+          };
+         
+        }
      }
 
    
@@ -376,6 +388,7 @@ var parentItem;
      let exerciseTxt = document.querySelector("#exercise-txt");
      let video = document.querySelector(".embed-responsive-item");
      let lesson =""; 
+     let lessonName = document.querySelector("#lesson-name");
 
      function changeContent(data){
        //console.log(data.exercise_explanation);
@@ -383,6 +396,7 @@ var parentItem;
        exerciseTxt.innerHTML = data.exercise_explanation ; 
        video.src =  data.video_link; 
        lesson = data.lesson_id;
+       lessonName.innerHTML  = data.title;
      }
 
 
