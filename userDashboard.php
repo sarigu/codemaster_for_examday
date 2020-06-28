@@ -12,10 +12,6 @@ if(isset($_SESSION['user_id'])){
 }
 
 
-$sql ="SELECT * FROM started_courses WHERE user_id = $userid ";
-$courses = mysqli_query($con,$sql);
-
-
 
  ?>
  <main>
@@ -35,16 +31,13 @@ $courses = mysqli_query($con,$sql);
        </div>
        <?php 
     
-    $sqlTitles ="SELECT * from started_courses where user_id = $userid GROUP BY course_id ";
+    $sqlTitles ="SELECT * FROM started_courses WHERE user_id =  $userid ";
     $coursesTitles = mysqli_query($con,$sqlTitles);
-     $arr = [];
-     
   
-     $currentRow; 
        while ($row = mysqli_fetch_array($coursesTitles)){ 
-  $course = $row['course_id'];
+  
   //echo  $course ;
-         if( $currentRow !== $row['title']) {    
+
  ?>  
        
        <!--single container-->
@@ -69,8 +62,7 @@ $courses = mysqli_query($con,$sql);
            </div>
          </div>
  
-         <?php }
-         $currentRow = $row['title'];
+         <?php 
      }
  ?>
       

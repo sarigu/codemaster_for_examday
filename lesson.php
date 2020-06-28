@@ -50,7 +50,7 @@ $arr =  json_encode($finishedLessons);
 
 $faveArr = [];
 
-$sqlFaves ="select lesson_id from user_favourite where user_id = $userid ";
+$sqlFaves ="SELECT lesson_id from user_favourite where user_id = $userid ";
 $faveLessons = mysqli_query($con,$sqlFaves);
 while($rowFaves = mysqli_fetch_array($faveLessons )){
  array_push($faveArr , $rowFaves[lesson_id]);
@@ -124,10 +124,10 @@ $lessonTitle ="";
               <div id="right-line"></div>
             </div>
           </div>
-
           <div class="col-md-7 col-lg-8 ">
             <!-- nested for video/script -->
             <div class="row ">
+            
               <div class="col-md-12 embed-responsive embed-responsive-16by9">
                 <iframe
                   class="embed-responsive-item"
