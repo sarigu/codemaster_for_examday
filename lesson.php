@@ -264,6 +264,7 @@ $lessonTitle ="";
       checkFinishedLessons();
       checkFavourites();
   
+  let currentLessonID;
    
       function checkActiveCourse(){
         var courseID = <?php echo $courseID ?>;
@@ -399,6 +400,21 @@ var parentItem;
         }
      }
 
+     function getNextLesson(lesson){
+
+        var lessonID = lesson;
+ 
+            $.ajax({
+              type: "POST",
+              url: "get-lessons.php",
+              data: { lesson: lessonID}
+            }).done(function( data ) {
+               var obj = JSON.parse(data);
+              changeContent(obj);
+            });              
+     }
+
+
    
 
      let script = document.querySelector("#script-txt");
@@ -418,6 +434,7 @@ var parentItem;
        lessonName.innerHTML  = data.title;
        lessonTitle.innerHTML = data.title ;
        titleHeart.dataset.lesson = data.lesson_id;
+       currentLessonID = parseInt(data.lesson_id);
      }
 
 
@@ -478,6 +495,8 @@ var parentItem;
                }
             });    
         
+            currentLessonID += 1;
+            setTimeout(function(){ getNextLesson(currentLessonID); }, 3000);
         } else {
           codePlaceholder.style.color = "red";
         }
