@@ -133,11 +133,11 @@ if(isset($_SESSION['user_id'])){
               aria-labelledby="navbarDropdown"
             >
             <?php 
-                 $sql ="SELECT * FROM started_courses where user_id = $userid GROUP BY course_id";
+                 $sql ="SELECT * FROM started_courses WHERE user_id =  $userid ";
                  $courses = mysqli_query($con,$sql);
-                 $currentRow; 
+           
                  while($row = mysqli_fetch_array($courses)){   
-                   if( $currentRow !== $row['title']) { 
+                 
             ?> 
          
               <a class="dropdown-item" href="lesson.php?courseid=<?=$row['course_id']?>">
@@ -159,8 +159,7 @@ if(isset($_SESSION['user_id'])){
               </a>
               <div class="dropdown-divider"></div>
               <?php 
-              }  
-              $currentRow = $row['title'];
+      
             } ?>
    
           </li>

@@ -383,14 +383,15 @@ h2 {
   outline: none;
   font-size: 14px;
   transition: 0.4s;
+  display: inline-flex;
 }
 
 .topic-btn:hover,
 .topic-btn.active {
-  color: var(--accent-color);
+  color: var(--accent-color) !important;
 }
 
-.topic-btn:after {
+.topic-btn:before {
   content: "\25B6"; /* arrow down*/
   color: var(--accent-color);
   font-weight: bold;
@@ -398,7 +399,7 @@ h2 {
   margin-right: 15px;
 }
 
-.active:after {
+.active:before {
   content: "\25BC"; /* arrow up*/
 }
 
@@ -413,7 +414,8 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 20px;
-  font-size: 13.5px;
+  font-size: 12.5px;
+  max-width: 140px;
 }
 
 .lessons-list li div:nth-child(2) {
@@ -485,6 +487,15 @@ h2 {
   background-repeat: repeat-y;
   margin-left: -10px;
   margin-top: 40px;
+}
+
+#title-box {
+  margin-bottom: 20px;
+  display: inline-flex;
+}
+
+#title-heart:hover {
+  cursor: pointer;
 }
 
 /* /////// video ////////// */
@@ -620,6 +631,11 @@ footer .icons a:hover {
 
   .carousel-container {
     padding: 0 6vw 0 6vw;
+  }
+
+  #title-box {
+    margin-bottom: 0px;
+    margin-top: 50px;
   }
 }
 

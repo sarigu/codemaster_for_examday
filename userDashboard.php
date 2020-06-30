@@ -188,9 +188,7 @@ if(isset($_SESSION['user_id'])){
 
       function slider(){
 
-        console.log(arr);
-console.log(node1);
-console.log(node2);
+
 
       var node1 = document.querySelector("#slide1");  
       var node2 = document.querySelector("#slide2");  

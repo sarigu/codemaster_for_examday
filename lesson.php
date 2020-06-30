@@ -84,7 +84,7 @@ $lessonTitle ="";
              
             while($row = mysqli_fetch_array($courses)){ 
               ?>
-              <button data-lesson=<?= $row["course_id"];?> class="topic-btn white "><?= $row["title"]; ?></button>
+              <button data-lesson=<?= $row["course_id"];?> class="topic-btn white "><span><?= $row["title"]; ?></span></button>
               <div class="lessons-list white ">
                 <ul>
                 <?php 
@@ -127,7 +127,15 @@ $lessonTitle ="";
           <div class="col-md-7 col-lg-8 ">
             <!-- nested for video/script -->
             <div class="row ">
-            
+              <!--new lesson name and heart-->
+            <div class="col-12  bg-darkblue-box" id="title-box" >
+            <h1 class="neon-green" id="lesson-title"></h1>
+                <h1 style="margin-left:20px;">
+                <i id="title-heart" data-lesson=""  class="far fa-heart neon-green"  onclick="addToFavourites(event)">
+                 </i></h1>
+          
+           
+            </div>
               <div class="col-md-12 embed-responsive embed-responsive-16by9">
                 <iframe
                   class="embed-responsive-item"
@@ -242,6 +250,8 @@ $lessonTitle ="";
           </div>
         </div>
       </div>
+
+      
     </main>
     <script>
 
@@ -249,11 +259,11 @@ $lessonTitle ="";
 
 
 
-
+      getLessonAfterLoad();
       checkActiveCourse();
       checkFinishedLessons();
       checkFavourites();
-      getLessonAfterLoad();
+  
    
       function checkActiveCourse(){
         var courseID = <?php echo $courseID ?>;
@@ -285,26 +295,35 @@ $lessonTitle ="";
 
       function  checkFavourites(){
         var listItems= document.querySelectorAll(".list-row");
+        var titleHeart = document.querySelector("#title-heart");
+        console.log(titleHeart.class);
         var arr = <?=$faves ?>;
         for(let i = 0; i < arr.length; i++){      
         var favourite = arr[i];
+      
      
         for(let i = 0; i < listItems.length; i++){
           var listLesson = listItems[i].children[1].dataset.lesson;
           if (favourite == listLesson )
             var heartNbr = listItems[i].children[0].getElementsByTagName("i")[0].dataset.lesson;
-            console.log(heartNbr);
             if(heartNbr == listLesson){
               listItems[i].children[0].getElementsByTagName("i")[0].classList.remove("far", "fa-heart");
              listItems[i].children[0].getElementsByTagName("i")[0].classList.add("fas", "fa-heart");
             }
             }
+            if(favourite == titleHeart.dataset.lesson){
+              console.log("yes");
+              titleHeart.classList.remove("far", "fa-heart");
+              titleHeart.classList.add("fas", "fa-heart");
+      }
           }
 
+    
       }
 
 
       function addToFavourites(event){
+        console.log(event.target);
         let lessonToAdd = event.target.dataset.lesson;
         let user = <?php echo $userid ?>;
   
@@ -358,8 +377,8 @@ var parentItem;
 
     
      function getLessonAfterLoad(){
-       var lessonId = <?php echo $lessonID; ?>;
-       //console.log(lessonId);
+       var lessonId = <?php echo $lessonID ?>;
+       console.log(lessonId);
 
        $.ajax({
               type: "POST",
@@ -371,14 +390,12 @@ var parentItem;
             });  
 
             var allLessons = document.querySelectorAll(".list-row");
-      // console.log(allLessons);
        for (let i = 0; i < allLessons.length; i++) {
           if(allLessons[i].children[1].dataset.lesson == lessonId ){
             allLessons[i].children[1].style.color = "#00ffce";
             allLessons[i].style.color = "#00ffce";
-
           };
-         
+ 
         }
      }
 
@@ -389,6 +406,8 @@ var parentItem;
      let video = document.querySelector(".embed-responsive-item");
      let lesson =""; 
      let lessonName = document.querySelector("#lesson-name");
+     let lessonTitle = document.querySelector("#lesson-title");
+     let titleHeart = document.querySelector("#title-heart");
 
      function changeContent(data){
        //console.log(data.exercise_explanation);
@@ -397,6 +416,8 @@ var parentItem;
        video.src =  data.video_link; 
        lesson = data.lesson_id;
        lessonName.innerHTML  = data.title;
+       lessonTitle.innerHTML = data.title ;
+       titleHeart.dataset.lesson = data.lesson_id;
      }
 
 
@@ -422,6 +443,7 @@ var parentItem;
       function closeOpenLists(elem, action, className) {
         for (var i = 0; i < elem.length; i++) {
           elem[i].classList[action](className);
+          elem[i].style.color = "white";
         }
       }
 
@@ -443,7 +465,7 @@ var parentItem;
         var insertedCode = codeInput.value.trim();
         var expectedCode = "SELECT * FROM Customers;";
         if (insertedCode == expectedCode) {
-          codePlaceholder.style.color = "green";
+          codePlaceholder.style.color = "#00ffce";
           parentItem.children[2].style.display = "block";
           $.ajax({
               type: "POST",
@@ -452,7 +474,7 @@ var parentItem;
             }).done(function( data ) {
        
                if(data != ""){
-                  alert("Keep going! You finished " + data + "lessons."); 
+                  alert("Keep going! You finished " + data + " lessons."); 
                }
             });    
         

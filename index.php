@@ -66,10 +66,79 @@ if(isset($_POST['submit'])){
     <title>Code Master</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg  bg-darkblue ">
-      <a class="navbar-brand" href="index.php">
+ <!--NAV-->
+ <nav class="navbar navbar-expand-lg  bg-darkblue ">
+      <!--logo-->
+      <a class="navbar-brand" href="main.php">
         <img src="images/logo.png" width="80%" alt="logo"
       /></a>
+      <!--burgermenu-->
+      <button
+        class="navbar-toggler "
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"> <i class="fas fa-bars"></i></span>
+      </button>
+
+      <!--nav inside burgermenu and outside-->
+      <div class="collapse navbar-collapse " id="navbarSupportedContent">
+        <!--search-->
+        <form class="form-inline  mx-auto my-4 my-lg-0 ">
+          <div class="input-group ">
+            <input
+              id="searchBar"
+              type="text"
+              class="form-control "
+              placeholder="Search for available courses"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-success"
+                id="srchBtn"
+                type="submit"
+              >
+                <svg
+                  class="bi bi-search"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </form>
+        <!--All the Links on the right side -->
+        <ul class="navbar-nav  ">
+          <!--about-->
+          <li class="nav-item mr-4 my-2 my-lg-0  ">
+            <a class="nav-link " href="#aboutSection">About</a>
+          </li>
+             <!--button log in-->
+          <li class="nav-item mr-4 my-2 my-lg-0  ">
+            <a href="index.php" class="btn btn-outline-success">Log in</a>
+          </li>
+            <!--sign up in-->
+          <li class="nav-item mr-4 my-2 my-lg-0  ">
+            <a href="signup.php"  class="btn btn-success">Sign up</a>
+          </li>
+        </ul>
+      </div>
     </nav>
     <!---LANDING PAGE -->
 <main id="landingpage">
